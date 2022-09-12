@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 2198
+let firstPlayerJoined = false
 app.use(express.json())
 app.use(cors())
 
@@ -51,9 +52,21 @@ app.get('/winner', (req, res) => {
   res.json(result)
 })
 
-app.put('/reset-choices', (req, res) => {
+app.put('/resetChoices', (req, res) => {
   player1Choice = player2Choice = null
   res.status(200).send('Choices have been reset.')
+})
+
+app.get('/isFirstPlayer', (req, res) => {
+  if (!firstPlayerJoined) {
+    res.send(true).status(200)
+    firstPlayerJoined = true
+  } else res.send(false).status(200)
+})
+
+app.put('/resetPlayerStatus', (req, res) => {
+  firstPlayerJoined = false
+  res.status(200).send('player status has been reset to false.')
 })
 
 app.listen(port, () => {
