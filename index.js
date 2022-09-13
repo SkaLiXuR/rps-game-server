@@ -49,7 +49,7 @@ app.get('/winner', (req, res) => {
     return res.status(404).send('a choice has not yet been selected')
   let result = evalWinner(player1Choice, player2Choice)
   result = result === 0 ? 'tie' : result === 1 ? 'player1' : 'player2'
-  res.json(result)
+  res.json({ winner: result }).status(200)
 })
 
 app.put('/resetChoices', (req, res) => {
